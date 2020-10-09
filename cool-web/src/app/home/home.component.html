@@ -4,4 +4,12 @@
     Hello Cow !  
   </p>
   <a class="btn btn-lg btn-primary" href="" role="button">Show products</a>
+
+  <quill-editor 
+	[styles]="{height: '200px'}" 
+	(onFocus)="focus($event)" 
+	(onEditorChanged)="changedEditor($event)"
+	(onBlur)="blur($event)" 
+	(onEditorCreated)="created($event)"
+></quill-editor>
 </div>
