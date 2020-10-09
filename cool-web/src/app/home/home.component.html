@@ -1,15 +1,14 @@
 <div class="jumbotron" style="background-color: #fff; height: calc(95vh);">
-  <h1>Cool website</h1>
-  <p class="lead">
-    Hello Cow !  
-  </p>
-  <a class="btn btn-lg btn-primary" href="" role="button">Show products</a>
-
-  <quill-editor 
-	[styles]="{height: '200px'}" 
+  <h1>Cool heading</h1>
+  <a class="btn btn-lg btn-primary" role="button" (click)="toggleEditor()">Toggle Rich text editor visibility </a>
+<br>
+<br>
+  <quill-editor *ngIf="hideEditor"
+	[styles]="{height: '400px'}" 
 	(onFocus)="focus($event)" 
 	(onEditorChanged)="changedEditor($event)"
 	(onBlur)="blur($event)" 
-	(onEditorCreated)="created($event)"
-></quill-editor>
+  (onEditorCreated)="created($event)"
+  [modules]="editor_modules">
+</quill-editor>
 </div>

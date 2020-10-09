@@ -10,6 +10,11 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { QuillModule } from 'ngx-quill'
+import { Resize } from 'quill-image-resize-module';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -24,8 +29,11 @@ import { QuillModule } from 'ngx-quill'
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    QuillModule.forRoot()
-
+    QuillModule.forRoot(),
+    MatIconModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
