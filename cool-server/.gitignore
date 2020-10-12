@@ -1,0 +1,10 @@
+env/
+env2/
+.aws-sam/
+.vscode/
+__pycache__/
+docker-volumes/
+htmlcov/
+.coverage
+coverage.xml
+test_results.xml

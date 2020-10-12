@@ -1,0 +1,11 @@
+-c constraints.txt
+--trusted-host alusta-artifactory.basware.com
+--extra-index-url http://alusta-artifactory.basware.com/artifactory/api/pypi/pypi-alusta/simple
+bw-jwt-auth
+flask>=1.1
+serverless-wsgi
+boto3
+requests
+flask_cors
+python_jwt
+

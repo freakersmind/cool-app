@@ -1,13 +1,69 @@
-# Cool Server
+# Setup development environment
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.3.
+## Prerequisites
 
-## Development server
+* Python 3.7 or newer
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Creating Python Virtual Environment
+
+*nix:
+```sh
+python3 -m venv env
+source env/bin/activate
+```
+
+Windows:
+```sh
+py -3 -m venv env
+env\scripts\activate
+```
+
+Note: Python Virtual Environment is typically created only once but you need run ```activate``` script every time you launch a new terminal.
 
 
-## Build
+## Install dependencies
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+This needs to be done only once.
 
+```sh
+pip install -r requirements-dev.txt
+```
+
+# Run locally
+
+*nix:
+```sh
+chmod +x run_locally
+./run_locally
+```
+
+Windows (with Git Unix tools in PATH):
+```sh
+sh run_locally
+```
+
+The Flask server is launched and the endpoint is listened in port 5000.
+
+Try with a browser: http://localhost:5000/eservice. It should return:
+```json
+[
+    "1",
+    "2",
+    "3"
+]
+```
+
+
+# Build and Deploy
+
+```sh
+sam build
+sam deploy
+```
+
+
+# Running as Docker container
+
+```sh
+docker-compose -f docker-compose.yml -f docker-compose.local.yml up --build --force-recreate
+```

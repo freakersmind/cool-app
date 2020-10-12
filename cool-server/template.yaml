@@ -1,0 +1,86 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Greeter service
+
+  Demonstrates simple microservice deployment as Lambda
+
+Parameters:
+  greetingsTableName:
+    Description: dynamo db greetings table name 
+    Type: String
+    Default: 'GreetingsTable'
+  greetingPictureBucket:
+    Description: greeting picture bucket 
+    Type: String
+  publicKey:
+    Description: public key for verifying JWT tokens. Either key itsef or reference to parameter store
+    Type: String
+    Default: '{ "kty": "RSA", "e": "AQAB","use": "sig","kid": "kate1","alg": "RS256","n": "mkHHLUCaM_mNRhuCW03vZLuwwNjhbEPVcusRD4ke3rWZjCPr8tqe05BzG4WPIT-jBzckY_we--X0VfNQ35DvrIUGgXWomCRTGxPGQTQBlf0RZfUinxMIXkgDRqRTdL3aGLJsq0qQc3OSkVGxJ1MEGGPe13cxMA9FmjdYgc35CFVQs02C4xpxeb6KpRS26OI06vhXEBWqaFhW9NhcZOIjUXBRo0O446KR08SJQtfb48IozkJm43i0TXArs-ZRjTsds-YjaHff-Z3E7HwLj9DGauC83vj67C-CUltZ_P1g_WTq7MQy_6gp0hFBSjdocE2DPhXBgPgw6-Bs5FbodfsUYw"}'
+         
+
+Globals:
+  Function:
+    Timeout: 3
+
+
+Resources:
+
+  GreeterService:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: greeter.apigw_wsgi_adapter.lambda_handler
+      Runtime: python3.7
+      Timeout: 30
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AmazonS3FullAccess
+      Environment:
+        Variables:
+          PUBLIC_KEY: !Ref publicKey
+          GREETING_PICTURES_BUCKET_NAME: !Ref greetingPictureBucket
+
+      Events:
+        greetings:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: any
+
+  GreetingsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: GreetingsTable
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  PicturesBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref greetingPictureBucket
+
+
+# This section is for printing information about the deployed resources
+Outputs:
+  GreetingsApi:
+    Description: "API Gateway endpoint URL for greetings API"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/greetings"
+  PicturesApi:
+    Description: "API Gateway endpoint URL for pictures API"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/pictures"
+  GreeterService:
+    Description: "Greeter Service Lambda Function ARN"
+    Value: !GetAtt GreeterService.Arn
+  GreetingsTable:
+    Description: "GreetingsTable DynamoDB Table ARN"
+    Value: !GetAtt GreetingsTable.Arn
+  GreeterServiceIamRole:
+    Description: "Implicit IAM Role created for Greeter function"
+    Value: !GetAtt GreeterServiceRole.Arn

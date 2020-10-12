@@ -1,0 +1,5 @@
+[MESSAGES CONTROL]
+disable=I0011,C0111,C0103,C0114,C0116
+
+[SIMILARITIES]
+ignore-imports=yes

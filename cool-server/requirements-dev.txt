@@ -1,0 +1,9 @@
+-r requirements.txt
+aws-sam-cli
+pytest
+pytest-cov
+moto
+requests-mock
+pylint
+pycodestyle
+pytest-flask

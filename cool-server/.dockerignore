@@ -1,0 +1,6 @@
+env/
+docker-volumes/
+.aws-sam/
+htmlcov/
+.pytest_cache/
+.vscode/

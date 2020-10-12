@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+  greeter:
+    build: .
+    container_name: greeter
+    ports:
+      - 5000:5000
+    environment:
+      AWS_DEFAULT_REGION: eu-west-1
+      AWS_ACCESS_KEY_ID: dummy
+      AWS_SECRET_ACCESS_KEY: dummy
+      S3_ENDPOINT_URL: http://s3-minio:9000
+      DYNAMODB_ENDPOINT_URL: http://dynamodb:8000

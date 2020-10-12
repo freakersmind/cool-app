@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  s3-minio:
+    image: minio/minio:latest
+    container_name: s3-minio
+    volumes:
+      - ./docker-volumes/minio:/data
+    ports:
+      - 19801:9000
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: password
+    command: server /data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    container_name: dynamodb
+    ports:
+      - 19802:8000
+    command: -jar DynamoDBLocal.jar -sharedDb
